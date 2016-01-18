@@ -10,12 +10,17 @@ function clone_pull_and_log(){
     url=$1
     base=$(get_base $1)
     if ! [[ -d $base ]] ; then
+        echo "Will clone " $base
         git clone $url
+        cd $base
     else
+        echo "Will update " $base
         cd $base
         git pull
-        cd -
     fi
+    echo "Log for "  $base
+    git --no-pager shortlog -sn
+    cd -
 }
 
 repos=("https://github.com/ImmobilienScout24/afp-core.git"
