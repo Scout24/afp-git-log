@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Simple script to fetch all logs related to the AFP project.
+
 function get_base(){
     local base
     base=$(basename $1)
