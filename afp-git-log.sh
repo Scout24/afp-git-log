@@ -2,6 +2,8 @@
 
 # Simple script to fetch all logs related to the AFP project.
 
+quiet='false'
+
 function get_base(){
     local base
     base=$(basename $1)
@@ -13,17 +15,32 @@ function clone_pull_and_log(){
     url=$1
     base=$(get_base $1)
     if ! [[ -d $base ]] ; then
-        echo "Will clone " $base
+        if ! $quiet ; then
+            echo "Will clone " $base
+        fi
+
         git clone $url
         cd $base
     else
-        echo "Will update " $base
+        if [[ $quiet = 'false' ]] ; then
+            echo "Will update " $base
+        fi
         cd $base
-        git pull
+        if [[ $quiet = 'false' ]] ; then
+            git pull
+        else
+            git pull > /dev/null
+        fi
     fi
-    echo "Log for "  $base
+    if [[ $quiet = 'false' ]] ; then
+        echo "Log for "  $base
+    fi
     git --no-pager shortlog -sn
-    cd -
+    if ! $quiet ; then
+        cd -
+    else
+        cd - > /dev/null
+    fi
 }
 
 repos=("https://github.com/ImmobilienScout24/afp-core.git"
@@ -32,6 +49,9 @@ repos=("https://github.com/ImmobilienScout24/afp-core.git"
        "https://github.com/ImmobilienScout24/afp-web.git"
        "https://github.com/ImmobilienScout24/afp-resource-maker.git"
        )
+if [[ $1 = '-q' ]] ; then
+    quiet='true'
+fi
 
 for i in 0 1 2 3 4
 do
