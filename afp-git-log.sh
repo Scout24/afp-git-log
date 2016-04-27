@@ -48,12 +48,13 @@ repos=("https://github.com/ImmobilienScout24/afp-core.git"
        "https://github.com/ImmobilienScout24/afp-alppaca.git"
        "https://github.com/ImmobilienScout24/afp-web.git"
        "https://github.com/ImmobilienScout24/afp-resource-maker.git"
+       "https://github.com/ImmobilienScout24/afp-talk.git"
        )
 if [[ $1 = '-q' ]] ; then
     quiet='true'
 fi
 
-for i in 0 1 2 3 4
+for i in 0 1 2 3 4 5
 do
     clone_pull_and_log ${repos[$i]}
 done
